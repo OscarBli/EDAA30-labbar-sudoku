@@ -6,7 +6,9 @@ public interface SudokuSolver {
      * Tries to solve the current sudoku.
      * @return true if there is one or more solutions, false if no solution could be found.
      */
-    boolean solve();
+    boolean solve(int r, int c) {
+    	
+    }
 
     /** Clears the entire sudoku board. */
     default void clear() {
