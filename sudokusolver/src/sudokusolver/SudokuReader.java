@@ -22,7 +22,7 @@ public class SudokuReader implements SudokuSolver {
 	@Override
 	public int getCell(int row, int col) throws IllegalArgumentException {
 	// TODO Auto-generated method stub
-		
+		return board
 		
 		return 0;
 	}
