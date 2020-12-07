@@ -20,11 +20,20 @@ public class SudokuReader implements SudokuSolver {
 					for(int value = 1; value <= 9; value++) {
 						if(validCell(r, c, value)) {
 							setCell(r + 1, c + 1, value);
-							if(solve())
+							if(solve()) {
+								return true;
+							}
+							else
+							{
+								board[r][c] = EMPTY;
+							}
+								
 					}
 				}
 			}
+			return false;
 		}
+		return true;
 		
 		}
 	

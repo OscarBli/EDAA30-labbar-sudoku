@@ -13,18 +13,27 @@ public class SudokuReader implements SudokuSolver {
 	public boolean solve() {
 		
 		
-		
+		 // iterera genom board
 		for(int r = 0; r < 9; r++) {
 			for(int c = 0; c < 9; c++) {
 				int boardPos = board[r][c];
-					for(int value = 1; value <= 9; value++) {
-						if(validCell(r, c, value)) {
-							setCell(r + 1, c + 1, value);
-							if(solve())
+					for(int value = 1; value <= 9; value++) { // for-loop för värdet vi testar, går från 1-9
+						if(validCell(r, c, value)) { // om cellen vi står på är ok för att placera value i
+							setCell(r + 1, c + 1, value); // sätt den cellen till value, + 1 pga att r börjar på 0 och setCell tar -1
+							if(solve()) { // rekursiv del, om det gick att stoppa in värdet, kalla på metod igen för att försöka lösa nästa ruta
+								return true;
+							}
+							else
+							{
+								board[r][c] = EMPTY; // var det ingen valid cell, sätt den till 0
+							}
+								
 					}
 				}
 			}
+			return false;
 		}
+		return true;
 		
 		}
 	
