@@ -10,8 +10,8 @@ public interface SudokuSolver {
 
     /** Clears the entire sudoku board. */
     default void clear() {
-        for(int i = 1; i <= 9; i++) {
-            for(int k = 1; k <= 9; k++) {
+        for(int i = 0; i <= 8; i++) {
+            for(int k = 0; k <= 8; k++) {
                 setCell(i, k, 0);
             }
         }
