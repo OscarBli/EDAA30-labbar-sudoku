@@ -8,24 +8,27 @@ public class SudokuReader implements SudokuSolver {
 	public SudokuReader() {
 		board= new int[9][9];
 	}
+	public SudokuReader(int board[][]){
+		this.board=board;
+	}
 	
-	@Override
+	
 	public boolean solve() {
 		
 		
-		 // iterera genom board
-		for(int r = 0; r < 9; r++) {
+		return solver(board, 0,0);
+		/**for(int r = 0; r < 9; r++) {
 			for(int c = 0; c < 9; c++) {
 				int boardPos = board[r][c];
-					for(int value = 1; value <= 9; value++) { // for-loop för värdet vi testar, går från 1-9
-						if(validCell(r, c, value)) { // om cellen vi står på är ok för att placera value i
-							setCell(r + 1, c + 1, value); // sätt den cellen till value, + 1 pga att r börjar på 0 och setCell tar -1
-							if(solve()) { // rekursiv del, om det gick att stoppa in värdet, kalla på metod igen för att försöka lösa nästa ruta
+					for(int value = 1; value <= 9; value++) {
+						if(validCell(r, c, value)) {
+							setCell(r, c, value);
+							if(solve()) {
 								return true;
 							}
 							else
 							{
-								board[r][c] = EMPTY; // var det ingen valid cell, sätt den till 0
+								board[r][c] = EMPTY;
 							}
 								
 					}
@@ -33,8 +36,40 @@ public class SudokuReader implements SudokuSolver {
 			}
 			return false;
 		}
-		return true;
-		
+		return true; */
+		}
+	
+		private boolean solver(int grid[][], int row, int col){
+			
+			boolean isDone = false;
+
+			//kolla fall vi är i slutet, dvs, har löst sudokun
+			if(row==8 && col==9){
+				return true;
+			}
+			//om col är nio, ändra till 0 och gå till nästa rad.
+			if(col==9){
+				col=0;
+				row++;
+			}
+			//om den inte är 0, hoppa över
+			if(board[row][col]!=0){
+				return solver(board, row, col+1);
+			}
+			//räknar 1-10 för at testa varje värde för cellen
+			for (int i =1; i<=9; i++){
+				//om nuvarande index går att sätta in, sätt in och kolla nästa plats.
+				if(validCell(row, col, i)){
+					board[row][col]=i;
+					if(solver(board, row, col+1)){
+						
+						return true;
+					}
+				}
+				//går det inte, ställ till 0 igen
+				board[row][col] = 0;
+			}
+			return false;
 		}
 	
 	public boolean validCell(int row, int col, int value) {
@@ -92,15 +127,21 @@ public class SudokuReader implements SudokuSolver {
 	
 	
 public static void main(String[] args) {
-	SudokuReader SR = new SudokuReader();
 	
-	System.out.print(SR.toString());
-	System.out.println();
-	System.out.println("______________________________");
-	
-	SR.setCell(1, 4, 8);
-	System.out.println(SR.toString());
+	int grid[][] = {	 { 3, 0, 6, 5, 0, 8, 4, 0, 0 },
+                         { 5, 2, 0, 0, 0, 0, 0, 0, 0 },
+                         { 0, 8, 7, 0, 0, 0, 0, 3, 1 },
+                         { 0, 0, 3, 0, 1, 0, 0, 8, 0 },
+                         { 9, 0, 0, 8, 6, 3, 0, 0, 5 },
+                         { 0, 5, 0, 0, 9, 0, 6, 0, 0 },
+                         { 1, 3, 0, 0, 0, 0, 2, 5, 0 },
+                         { 0, 0, 0, 0, 0, 0, 0, 7, 4 },
+                         { 0, 0, 5, 2, 0, 6, 3, 0, 0 } };
+		SudokuReader sd = new SudokuReader(grid);
+		sd.solve();
 
+		sd.toString();
+    }
 
 }
 }

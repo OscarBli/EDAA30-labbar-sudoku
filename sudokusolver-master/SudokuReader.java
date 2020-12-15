@@ -13,13 +13,13 @@ public class SudokuReader implements SudokuSolver {
 	public boolean solve() {
 		
 		
-		
-		for(int r = 0; r < 9; r++) {
+		return solver(board, 0,0);
+		/**for(int r = 0; r < 9; r++) {
 			for(int c = 0; c < 9; c++) {
 				int boardPos = board[r][c];
 					for(int value = 1; value <= 9; value++) {
 						if(validCell(r, c, value)) {
-							setCell(r + 1, c + 1, value);
+							setCell(r, c, value);
 							if(solve()) {
 								return true;
 							}
@@ -34,16 +34,31 @@ public class SudokuReader implements SudokuSolver {
 			return false;
 		}
 		return true;
-		
+		*/
 		}
 	
+		private boolean solver(int grid[][], int row, int col){
+			//räknar 1-10;
+			for (int i =1; i<10; i++){
+				//om nuvarande index går att sätta in, sätt in och kolla nästa plats.
+				if(validCell(row, col, i)){
+					board[row][col]=i;
+					if(solver(board, row, col+1)){
+						return true;
+					}
+				}
+				board[row][col] = 0;
+			}
+			return false;
+		}
+
 	public boolean validCell(int row, int col, int value) {
 		for(int i = 0; i < 8; i++) {
-			if(board[row][i] == value || board[i][col] == value) { // kollar s� den inte finns horisontellt eller vertikalt
+			if(board[row][i] == value || board[i][col] == value) { // kollar s� den inte finns horisontellt eller vertikalt
 				System.out.println("Number Already exists within the row or col");
 				return false;
 			}
-			/*B�rjar i starten av varje "liten" ruta */
+			/*B�rjar i starten av varje "liten" ruta */
 			int smallRowStart = (row/3) * 3; 
 			int smallColStart = (col/3) * 3;
 			
@@ -66,7 +81,7 @@ public class SudokuReader implements SudokuSolver {
 
 	@Override
 	public void setCell(int row, int col, int val) throws IllegalArgumentException {
-		board[row-1][col-1] = val;
+		board[row][col] = val;
 	}
 
 	@Override
