@@ -1,7 +1,8 @@
+package sudokusolver;
+
 
 
 public class SudokuReader implements SudokuSolver {
-
 	private int [][] board;
 	private final int EMPTY = 0;
 		
@@ -13,37 +14,14 @@ public class SudokuReader implements SudokuSolver {
 	}
 	
 	
-	public boolean solve() {
-		
-		
+	public boolean solve() {		
 		return solver(board, 0,0);
-		/**for(int r = 0; r < 9; r++) {
-			for(int c = 0; c < 9; c++) {
-				int boardPos = board[r][c];
-					for(int value = 1; value <= 9; value++) {
-						if(validCell(r, c, value)) {
-							setCell(r, c, value);
-							if(solve()) {
-								return true;
-							}
-							else
-							{
-								board[r][c] = EMPTY;
-							}
-								
-					}
-				}
-			}
-			return false;
-		}
-		return true; */
 		}
 	
 		private boolean solver(int grid[][], int row, int col){
 			
-			boolean isDone = false;
 
-			//kolla fall vi är i slutet, dvs, har löst sudokun
+			//kolla ifall vi är i slutet, dvs, har löst sudokun
 			if(row==8 && col==9){
 				return true;
 			}
@@ -73,9 +51,9 @@ public class SudokuReader implements SudokuSolver {
 		}
 	
 	public boolean validCell(int row, int col, int value) {
-		for(int i = 0; i < 8; i++) {
+		for(int i = 0; i < 9; i++) {
 			if(board[row][i] == value || board[i][col] == value) { // kollar så den inte finns horisontellt eller vertikalt
-				System.out.println("Number Already exists within the row or col");
+				//System.out.println("Number Already exists within the row or col");
 				return false;
 			}
 			/*Börjar i starten av varje "liten" ruta */
@@ -84,10 +62,10 @@ public class SudokuReader implements SudokuSolver {
 			
 			/*iterera genom den lilla rutan, returnera false om value redan finns*/
 			
-			for(int r = smallRowStart; r < smallRowStart; r++) {
-				for(int c = smallColStart; c < smallColStart; c++) {
+			for(int r = smallRowStart; r < smallRowStart+3; r++) {
+				for(int c = smallColStart; c < smallColStart+3; c++) {
 					if(board[r][c] == value) {
-						System.out.println("Number already exists within the small square");
+						//System.out.println("Number already exists within the small square");
 						return false;
 					}
 				}
@@ -101,7 +79,7 @@ public class SudokuReader implements SudokuSolver {
 
 	@Override
 	public void setCell(int row, int col, int val) throws IllegalArgumentException {
-		board[row-1][col-1] = val;
+		board[row][col] = val;
 	}
 
 	@Override
@@ -124,24 +102,30 @@ public class SudokuReader implements SudokuSolver {
     }
 	
 
-	
-	
-public static void main(String[] args) {
-	
-	int grid[][] = {	 { 3, 0, 6, 5, 0, 8, 4, 0, 0 },
-                         { 5, 2, 0, 0, 0, 0, 0, 0, 0 },
-                         { 0, 8, 7, 0, 0, 0, 0, 3, 1 },
-                         { 0, 0, 3, 0, 1, 0, 0, 8, 0 },
-                         { 9, 0, 0, 8, 6, 3, 0, 0, 5 },
-                         { 0, 5, 0, 0, 9, 0, 6, 0, 0 },
-                         { 1, 3, 0, 0, 0, 0, 2, 5, 0 },
-                         { 0, 0, 0, 0, 0, 0, 0, 7, 4 },
-                         { 0, 0, 5, 2, 0, 6, 3, 0, 0 } };
-		SudokuReader sd = new SudokuReader(grid);
-		sd.solve();
+	public static void main(String[] args) {
+		
+	  /**	int grid[][] = {	 { 3, 0, 6, 5, 0, 8, 4, 0, 0 },
+	                         { 5, 2, 0, 0, 0, 0, 0, 0, 0 },
+	                         { 0, 8, 7, 0, 0, 0, 0, 3, 1 },
+	                         { 0, 0, 3, 0, 1, 0, 0, 8, 0 },
+	                         { 9, 0, 0, 8, 6, 3, 0, 0, 5 },
+	                         { 0, 5, 0, 0, 9, 0, 6, 0, 0 },
+	                         { 1, 3, 0, 0, 0, 0, 2, 5, 0 },
+	                         { 0, 0, 0, 0, 0, 0, 0, 7, 4 },
+	                         { 0, 0, 5, 2, 0, 6, 3, 0, 0 } };*/
+		
+		int [][] grid = new int[9][9];
+		for (int i = 0; i < 9; i++) {
+			for (int k =0; i<9; i++) {
+				grid[i][k] =0;
+			}
+		}
+			SudokuReader sd = new SudokuReader(grid);
+			sd.solve();
 
-		sd.toString();
-    }
+			System.out.print(sd.toString());
+	    }
+	}
 
-}
-}
+
+
